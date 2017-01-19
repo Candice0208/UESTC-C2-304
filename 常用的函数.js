@@ -6,3 +6,11 @@ function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
+//判断是否为整数
+function isInt( num ) {
+    if( parseInt(num) == parseFloat(num) ){
+        alert( num + '是整数' );
+    }else{
+        alert( num + '是小数' );
+    }
+}
