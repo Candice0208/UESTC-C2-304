@@ -1,0 +1,28 @@
+<!--html结构部分-->
+<template>
+    <style>
+        .color{
+            color: red;
+        }
+    </style>
+    <p>hello:<strong class="color">red</strong></p>
+</template>
+
+<script>
+    (function(){
+        var element = Object.create(HTMLElement.prototype);   // 基于HTML元素的原型创建对象
+
+        // object，文档碎片DocumentFragment，DOM对象的缓存区
+        var template = document.currentScript.ownerDocument.querySelector('template').content;
+        console.log(template);
+
+        element.createdCallback = function(){
+            var shadowRoot = this.createShadowRoot();
+            var clone = document.importNode(template,true);
+            shadowRoot.appendChild(clone);
+        }
+        document.registerElement('netease-color',{
+            prototype:element
+        })
+    })()
+</script>

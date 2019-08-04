@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>
+        username: <input type="text" name="username" id="username">
+    </p>
+    <p>
+        password: <input type="text" name="password" id="password">
+    </p>
+    <p>
+        file: <input type="file" name="file" id="file">
+    </p>
+    <p>
+        <button id="postform">提交</button>
+    </p>
+    <script>
+        var btn = document.querySelector('#postform');
+
+        btn.onclick = function () {
+            let username = document.querySelector('#username');
+            let password = document.querySelector('#password');
+            let file = document.querySelector('#file')
+
+            let oForm = new FormData();   // 主要用于上传文件
+            oForm.set('username', username);
+            oForm.set('password', password);
+            oForm.set('file', file.files[0]);
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('post','http://localhost:2019/upload',true);
+            xhr.send(oForm);
+
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState==4){
+                    if((xhr.status>=200 && xhr.status<300) ||(xhr.status==304)){
+                        console.log('成功')
+                    } else {
+                        console.log('失败')
+                    }
+                }
+            }
+        } 
+    </script>
+</body>
+
+</html>

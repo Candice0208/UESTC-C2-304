@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <h3 id='paragraph'></h3>
+        <input type="text" id='input'>
+    </div>
+</body>
+<script>
+    const paragraph = document.querySelector('#paragraph');
+    const input = document.querySelector('#input');
+
+    const data = {
+        text:"hello world"
+    }
+
+    const handler = {
+        set: function(target, prop, value){
+            if(prop=='text'){
+                target[prop] = value;
+                paragraph.innerHTML = value;
+                input.value = value;
+                return true;
+            }
+            return false;
+        }
+    }
+
+    const myText = new Proxy(data,handler);
+    
+    input.addEventListener('input',function(e){
+        myText.text = e.target.value;
+    })
+
+    myText.text = data.text;
+
+</script>
+</html>

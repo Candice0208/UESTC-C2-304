@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #container {
+            background-color: black;
+            color: aliceblue;
+            font-size: 30px;
+            width: 200px;
+            text-align: center;
+            padding: 200px
+        }
+    </style>
+</head>
+
+<body>
+    <div id='container'></div>
+    <script>
+        var count = 1;
+        var container = document.querySelector('#container');
+        function getUserAction() {
+            this.innerHTML = count++;
+        }
+        //container.onmousemove = debounce(getUserAction, 1000, true);
+        container.onmousemove = throttle(getUserAction, 1000);
+        // 设计模式
+        // 防抖
+        function debounce(fn, delay, flag) {
+
+            var timer;
+            return function () {
+                clearTimeout(timer);
+                var self = this;
+
+                if (flag) {   // 开始边界，就执行
+                    var callNow = !timer;
+                    timer = setTimeout(function () {
+                        timer = null;
+                    }, delay);
+                    if (callNow) {
+                        fn.apply(self);
+                    }
+                } else {   // 结束边界
+                    timer = setTimeout(function () {
+                        fn.apply(self);
+                    }, delay)
+                }
+            }
+
+            /*
+            let timer;
+            return (...args) => {
+                if (timer) {   // 第一次进入时，立即执行
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    fn.apply(this);
+                }, delay)
+            }
+            */
+        }
+
+        // 节流 不用定时器
+        function throttle(fn, delay) {
+            var previous = 0; // 参照物
+            return function () {
+                var now = +new Date();  // 时间戳
+                if (now - previous > delay) {
+                    fn.apply(this);
+                    previous = now;
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>

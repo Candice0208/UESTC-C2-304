@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 虚拟代理实现图片预加载
+        var myImage = (function () {
+            var imgNode = document.createElement('img'); 
+            document.body.appendChild(imgNode);
+            return {
+                setSrc: function (src) {
+                    imgNode.src = src;
+                }
+            }
+        })();
+
+        var proxyImage = (function () {
+            var img = new Image; 
+            img.onload = function () {
+                myImage.setSrc(this.src);
+            }
+            return {
+                setSrc: function (src) {
+                    myImage.setSrc('‎⁨⁩./upload.jpg');
+                    img.src = src;
+                }
+            }
+        })();
+        proxyImage.setSrc('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564037929960&di=0aea6f420ff1f58a3cfe8bb04b90a0e8&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181005%2F03201dcc75074f33a4421ba4f6a87ef1.jpeg');
+    </script>
+</body>
+
+</html>

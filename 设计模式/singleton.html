@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="loginBtn">登录</button>
+    <script>
+        // 惰性单例
+        // 惰性单例技术，在合适的时候才创建对象，并且只创建唯一的一个
+        var getSingle = function (fn) {
+            var result;
+            return function () {
+                return result || (result = fn.apply(this, arguments));
+            }
+        };
+        var createLoginLayer = function () {
+            div = document.createElement('div');
+            div.innerHTML = '我是登录浮窗';
+            div.style.display = 'none';
+            document.body.appendChild(div);
+            return div;
+        };
+        var createSingleLoginLayer = getSingle( createLoginLayer );
+        document.getElementById('loginBtn').onclick = function () {
+            var loginLayer = createSingleLoginLayer();
+            loginLayer.style.display = 'block';
+        };
+    </script>
+</body>
+
+</html>
